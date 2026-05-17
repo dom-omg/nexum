@@ -51,7 +51,7 @@ export default function Home() {
     <div className="min-h-screen bg-[#0a0a0a] text-white font-mono">
       <header className="border-b border-white/10 px-8 py-5 flex items-center justify-between">
         <div>
-          <span className="text-xl font-bold tracking-widest text-white">AXIOM</span>
+          <span className="text-xl font-bold tracking-widest text-white">NEXUM</span>
           <span className="ml-3 text-xs text-white/30 tracking-widest uppercase">by Wick Security</span>
         </div>
         <div className="flex items-center gap-2 text-xs text-white/40">

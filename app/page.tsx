@@ -5,9 +5,15 @@ import type { Domain, AxiomReceipt } from '@/lib/invariants/types'
 
 const DOMAINS: { value: Domain; label: string; icon: string }[] = [
   { value: 'medical', label: 'Medical', icon: '⚕' },
-  { value: 'legal', label: 'Legal / Judicial', icon: '⚖' },
+  { value: 'legal', label: 'Legal', icon: '⚖' },
   { value: 'military', label: 'Military', icon: '◈' },
   { value: 'robotics', label: 'Robotics', icon: '⬡' },
+  { value: 'nuclear', label: 'Nuclear', icon: '⬡' },
+  { value: 'aviation', label: 'Aviation', icon: '◇' },
+  { value: 'finance', label: 'Finance / AML', icon: '◉' },
+  { value: 'pharmaceutical', label: 'Pharma / Drug', icon: '✚' },
+  { value: 'critical_infrastructure', label: 'Critical Infra', icon: '▣' },
+  { value: 'criminal_justice', label: 'Justice', icon: '◐' },
 ]
 
 export default function Home() {
@@ -58,7 +64,7 @@ export default function Home() {
         <div className="space-y-6">
           <h2 className="text-xs tracking-widest text-white/40 uppercase">AI Decision Input</h2>
 
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3">
             {DOMAINS.map(d => (
               <button
                 key={d.value}

@@ -1,4 +1,14 @@
-export type Domain = 'medical' | 'legal' | 'military' | 'robotics'
+export type Domain =
+  | 'medical'
+  | 'legal'
+  | 'military'
+  | 'robotics'
+  | 'nuclear'
+  | 'aviation'
+  | 'finance'
+  | 'pharmaceutical'
+  | 'critical_infrastructure'
+  | 'criminal_justice'
 
 export interface Invariant {
   id: string

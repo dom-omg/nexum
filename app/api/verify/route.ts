@@ -5,7 +5,11 @@ import { verify } from '@/lib/verifier'
 import { generateReceipt } from '@/lib/receipt'
 import type { Domain } from '@/lib/invariants/types'
 
-const VALID_DOMAINS: Domain[] = ['medical', 'legal', 'military', 'robotics']
+const VALID_DOMAINS: Domain[] = [
+  'medical', 'legal', 'military', 'robotics',
+  'nuclear', 'aviation', 'finance', 'pharmaceutical',
+  'critical_infrastructure', 'criminal_justice',
+]
 
 export async function POST(req: NextRequest) {
   try {

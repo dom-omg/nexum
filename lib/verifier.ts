@@ -64,7 +64,8 @@ export async function verify(input: VerificationInput): Promise<VerificationResu
   // Software path — same interface will be used for FPGA hardware path
   try {
     const { Context } = await init()
-    const { Bool, solver, Not, And } = new Context('main')
+    const { Bool, Solver, Not } = new Context('main')
+    const solver = new Solver()
 
     for (const inv of invariants) {
       checked.push(inv.id)

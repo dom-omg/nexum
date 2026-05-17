@@ -1,7 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  serverExternalPackages: ['z3-solver'],
+  turbopack: {},
 };
 
 export default nextConfig;

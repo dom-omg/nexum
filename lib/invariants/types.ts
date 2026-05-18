@@ -40,8 +40,13 @@ export interface NexumReceipt {
   decision_hash: string
   decision_preview: string
   verdict: 'COMPLIANT' | 'VIOLATION' | 'ERROR'
-  invariants_checked: string[]
-  violations: string[]
+  extracted_params: Record<string, boolean | number>
+  extraction_method: 'claude' | 'heuristic'
+  invariants_checked: Array<{ id: string; description: string; passed: boolean }>
+  violations: Array<{ id: string; description: string }>
+  z3_result: 'SAT' | 'UNSAT' | 'UNKNOWN'
+  analysis: string
+  stage_timings: { extract_ms: number; z3_ms: number; sign_ms: number }
   hardware_source: 'software_mock' | 'fpga_risc_v'
   signature: string
   public_key: string

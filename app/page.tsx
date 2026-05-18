@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import type { Domain, AxiomReceipt } from '@/lib/invariants/types'
+import type { Domain, NexumReceipt } from '@/lib/invariants/types'
 
 const DOMAINS: { value: Domain; label: string; icon: string }[] = [
   { value: 'medical', label: 'Medical', icon: '⚕' },
@@ -22,8 +22,8 @@ export default function Home() {
   const [context, setContext] = useState('')
   const [model, setModel] = useState('claude-sonnet-4-6')
   const [loading, setLoading] = useState(false)
-  const [receipt, setReceipt] = useState<AxiomReceipt | null>(null)
-  const [history, setHistory] = useState<AxiomReceipt[]>([])
+  const [receipt, setReceipt] = useState<NexumReceipt | null>(null)
+  const [history, setHistory] = useState<NexumReceipt[]>([])
 
   async function handleVerify() {
     if (!decision.trim()) return

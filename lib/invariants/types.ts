@@ -32,7 +32,7 @@ export interface VerificationResult {
   processing_time_ms: number
 }
 
-export interface AxiomReceipt {
+export interface NexumReceipt {
   id: string
   timestamp: string
   domain: Domain

@@ -1,5 +1,5 @@
 import crypto from 'crypto'
-import type { AxiomReceipt, Domain, VerificationResult } from './invariants/types'
+import type { NexumReceipt, Domain, VerificationResult } from './invariants/types'
 
 // Ed25519 keypair — in production, stored in FPGA secure enclave
 let _keypair: { publicKey: string; privateKey: string } | null = null
@@ -20,7 +20,7 @@ export function generateReceipt(
   model: string,
   domain: Domain,
   result: VerificationResult
-): AxiomReceipt {
+): NexumReceipt {
   const id = crypto.randomUUID()
   const timestamp = new Date().toISOString()
   const decision_hash = crypto.createHash('sha256').update(decision).digest('hex')

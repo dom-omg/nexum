@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useRef } from 'react'
+import Link from 'next/link'
 import type { Domain, NexumReceipt } from '@/lib/invariants/types'
 
 const DOMAINS: { value: Domain; label: string; icon: string; color: string }[] = [
@@ -192,6 +193,11 @@ export default function Home() {
               {t === 'verify' ? '◆ Verify Decision' : '◌ Check Receipt'}
             </button>
           ))}
+          <Link href="/audit">
+            <button className="px-4 py-1.5 text-[10px] tracking-widest uppercase text-white/30 hover:text-white/60 border border-transparent transition-all">
+              ◈ Audit System
+            </button>
+          </Link>
         </div>
       </header>
 

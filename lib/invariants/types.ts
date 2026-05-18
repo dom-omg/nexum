@@ -1,10 +1,6 @@
 export type Domain =
   | 'medical'
   | 'legal'
-  | 'military'
-  | 'robotics'
-  | 'nuclear'
-  | 'aviation'
   | 'finance'
   | 'pharmaceutical'
   | 'critical_infrastructure'

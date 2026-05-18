@@ -8,8 +8,7 @@ import { generateReceipt } from '@/lib/receipt'
 import type { Domain } from '@/lib/invariants/types'
 
 const VALID_DOMAINS: Domain[] = [
-  'medical', 'legal', 'military', 'robotics',
-  'nuclear', 'aviation', 'finance', 'pharmaceutical',
+  'medical', 'legal', 'finance', 'pharmaceutical',
   'critical_infrastructure', 'criminal_justice',
 ]
 

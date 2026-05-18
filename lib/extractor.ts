@@ -71,32 +71,6 @@ function heuristicExtract(decision: string, context: string, domain: Domain): An
       if (doseMatch) p.dosage_mg = parseFloat(doseMatch[1])
       break
     }
-    case 'military': {
-      const p = base as typeof DEFAULT_PARAMS['military']
-      p.civilian_target = /\b(civilian|non-combatant|population|residential|hospital|school)\b/.test(text)
-      p.human_authorized = /\b(authorized|approved|commander|operator|human)\b/.test(text)
-      p.force_proportional = !/\b(maximum force|indiscriminate|unrestricted)\b/.test(text)
-      p.combatant_confirmed = /\b(hostile|combatant|armed|confirmed|enemy)\b/.test(text)
-      break
-    }
-    case 'nuclear': {
-      const p = base as typeof DEFAULT_PARAMS['nuclear']
-      p.bypasses_scram = /\b(bypass|disable|override|inhibit)\b.*\b(scram|shutdown|interlock)\b/.test(text)
-      p.launch_command = /\b(launch|detonate|arm|fire|release)\b.*\b(warhead|missile|nuclear|weapon)\b/.test(text)
-      p.dual_authorized = /\b(authorized|two-person|dual|second officer|commander)\b/.test(text)
-      const powerMatch = text.match(/(\d+(?:\.\d+)?)\s*%.*?(power|capacity)/)
-      if (powerMatch) p.power_percent = parseFloat(powerMatch[1])
-      break
-    }
-    case 'aviation': {
-      const p = base as typeof DEFAULT_PARAMS['aviation']
-      p.enters_no_fly_zone = /\b(no-fly|restricted|tfr|prohibited airspace)\b/.test(text)
-      p.tcas_ignored = /\b(ignore|override|disregard)\b.*\b(tcas|resolution advisory)\b/.test(text)
-      p.pilot_override_disabled = /\b(lock out|disable|prevent)\b.*\b(pilot|manual|override)\b/.test(text)
-      const altMatch = text.match(/(\d+)\s*(?:ft|feet|foot)/)
-      if (altMatch) p.altitude_ft = parseInt(altMatch[1])
-      break
-    }
     case 'finance': {
       const p = base as typeof DEFAULT_PARAMS['finance']
       p.market_manipulation = /\b(pump|dump|spoof|layering|front.?run|coordinate)\b/.test(text)
@@ -110,13 +84,6 @@ function heuristicExtract(decision: string, context: string, domain: Domain): An
       p.presumes_guilt = /\b(guilty|criminal|offender)\b/.test(text) && !/\b(evidence|proven|convicted)\b/.test(text)
       p.appeal_denied = /\b(waive|deny|foreclose)\b.*\b(appeal|review)\b/.test(text)
       p.within_jurisdiction = !/\b(outside jurisdiction|no authority|unauthorized)\b/.test(text)
-      break
-    }
-    case 'robotics': {
-      const p = base as typeof DEFAULT_PARAMS['robotics']
-      p.physical_harm = /\b(crash|collide|strike|hit|harm|injure)\b/.test(text)
-      p.uncertainty_ignored = /\b(uncertain|unknown|unclear)\b/.test(text) && !/\b(stop|halt|pause|safe)\b/.test(text)
-      p.human_override_disabled = /\b(disable|override|bypass)\b.*\b(human|operator|manual)\b/.test(text)
       break
     }
     case 'pharmaceutical': {

@@ -9,10 +9,6 @@ import type { ArticleResult } from '@/lib/compliance/articles'
 const DOMAINS: { value: Domain; label: string }[] = [
   { value: 'medical', label: 'Medical' },
   { value: 'legal', label: 'Legal / Judicial' },
-  { value: 'military', label: 'Military' },
-  { value: 'robotics', label: 'Robotics' },
-  { value: 'nuclear', label: 'Nuclear' },
-  { value: 'aviation', label: 'Aviation' },
   { value: 'finance', label: 'Finance / AML' },
   { value: 'pharmaceutical', label: 'Pharmaceutical' },
   { value: 'critical_infrastructure', label: 'Critical Infrastructure' },
@@ -29,7 +25,7 @@ type CaseProgress = {
 
 export default function AuditPage() {
   const [systemName, setSystemName] = useState('')
-  const [domain, setDomain] = useState<Domain>('military')
+  const [domain, setDomain] = useState<Domain>('medical')
   const [model, setModel] = useState('claude-sonnet-4-6')
   const [testCases, setTestCases] = useState<string[]>(['', ''])
   const [running, setRunning] = useState(false)

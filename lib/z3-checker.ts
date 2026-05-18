@@ -30,32 +30,6 @@ const DOMAIN_INVARIANTS: Record<Domain, InvariantSpec[]> = {
     { id: 'LEG-003', description: 'Right to appeal — appeal rights preserved', check: p => !(p as DomainParams['legal']).appeal_denied },
     { id: 'LEG-004', description: 'Proportionality — sentence proportional to offense', check: p => { const q = p as DomainParams['legal']; return q.sentence_years <= q.max_proportional_years } },
   ],
-  military: [
-    { id: 'MIL-001', description: 'Civilian protection — no targeting of civilians or non-combatants', check: p => !(p as DomainParams['military']).civilian_target },
-    { id: 'MIL-002', description: 'Human authorization — commander-in-loop for all lethal decisions', check: p => (p as DomainParams['military']).human_authorized },
-    { id: 'MIL-003', description: 'Force proportionality — force proportional to confirmed threat', check: p => (p as DomainParams['military']).force_proportional },
-    { id: 'MIL-004', description: 'Combatant confirmation — target positively identified as hostile', check: p => (p as DomainParams['military']).combatant_confirmed },
-  ],
-  robotics: [
-    { id: 'ROB-001', description: 'No physical harm — robot action cannot injure humans', check: p => !(p as DomainParams['robotics']).physical_harm },
-    { id: 'ROB-002', description: 'Safe stop on uncertainty — halt when uncertain, never ignore', check: p => !(p as DomainParams['robotics']).uncertainty_ignored },
-    { id: 'ROB-003', description: 'Human override available — operator can always take control', check: p => !(p as DomainParams['robotics']).human_override_disabled },
-    { id: 'ROB-004', description: 'Speed bounds — velocity within safe limit near humans (2.0 m/s)', check: p => { const q = p as DomainParams['robotics']; return q.speed_ms <= q.max_speed_ms } },
-  ],
-  nuclear: [
-    { id: 'NUC-001', description: 'SCRAM integrity — no bypassing of emergency shutdown', check: p => !(p as DomainParams['nuclear']).bypasses_scram },
-    { id: 'NUC-002', description: 'No launch command — zero nuclear weapons activation', check: p => !(p as DomainParams['nuclear']).launch_command },
-    { id: 'NUC-003', description: 'Two-person integrity — dual authorization for irreversible actions', check: p => (p as DomainParams['nuclear']).dual_authorized },
-    { id: 'NUC-004', description: 'Criticality bounds — reactor power ≤ 100% rated capacity', check: p => (p as DomainParams['nuclear']).power_percent <= 100 },
-    { id: 'NUC-005', description: 'Radiation limits — personnel exposure ≤ 20 mSv', check: p => (p as DomainParams['nuclear']).radiation_dose_msv <= 20 },
-  ],
-  aviation: [
-    { id: 'AVN-001', description: 'Airspace compliance — no entry into restricted/no-fly zones', check: p => !(p as DomainParams['aviation']).enters_no_fly_zone },
-    { id: 'AVN-002', description: 'TCAS compliance — resolution advisories must be followed', check: p => !(p as DomainParams['aviation']).tcas_ignored },
-    { id: 'AVN-003', description: 'Pilot authority — manual override always available', check: p => !(p as DomainParams['aviation']).pilot_override_disabled },
-    { id: 'AVN-004', description: 'Altitude safety — altitude above minimum safe floor', check: p => { const q = p as DomainParams['aviation']; return q.altitude_ft >= q.min_safe_altitude_ft } },
-    { id: 'AVN-005', description: 'Fuel reserve — minimum 10% reserve maintained', check: p => (p as DomainParams['aviation']).fuel_reserve_percent >= 10 },
-  ],
   finance: [
     { id: 'FIN-001', description: 'No market manipulation — no coordinated price distortion', check: p => !(p as DomainParams['finance']).market_manipulation },
     { id: 'FIN-002', description: 'No wash trading — no circular self-dealing orders', check: p => !(p as DomainParams['finance']).wash_trading },
@@ -74,7 +48,6 @@ const DOMAIN_INVARIANTS: Record<Domain, InvariantSpec[]> = {
     { id: 'INF-002', description: 'Failsafe integrity — no safety mechanisms disabled', check: p => !(p as DomainParams['critical_infrastructure']).failsafe_disabled },
     { id: 'INF-003', description: 'Cascade prevention — action does not risk cascading failure', check: p => !(p as DomainParams['critical_infrastructure']).cascade_risk },
     { id: 'INF-004', description: 'Redundancy maintained — backup systems remain operational', check: p => !(p as DomainParams['critical_infrastructure']).backup_disabled },
-    { id: 'INF-005', description: 'Grid stability — frequency within 59.95–60.05 Hz', check: p => { const q = p as DomainParams['critical_infrastructure']; return q.grid_frequency_hz >= 59.95 && q.grid_frequency_hz <= 60.05 } },
   ],
   criminal_justice: [
     { id: 'JUS-001', description: 'No protected-attribute bias — decision not based on race/gender/religion', check: p => !(p as DomainParams['criminal_justice']).protected_attribute_bias },
@@ -144,46 +117,11 @@ function addNumericConstraints(
 ) {
   try {
     switch (domain) {
-      case 'nuclear': {
-        const q = params as DomainParams['nuclear']
-        const power = Int.const('power_percent')
-        solver.add(power.eq(Int.val(Math.round(q.power_percent))))
-        solver.add(power.le(Int.val(100)))
-        const rad = Real.const('radiation_msv')
-        solver.add(rad.eq(Real.val(q.radiation_dose_msv)))
-        solver.add(rad.le(Real.val(20)))
-        break
-      }
-      case 'aviation': {
-        const q = params as DomainParams['aviation']
-        const alt = Int.const('altitude_ft')
-        solver.add(alt.eq(Int.val(Math.round(q.altitude_ft))))
-        solver.add(alt.ge(Int.val(Math.round(q.min_safe_altitude_ft))))
-        const fuel = Int.const('fuel_reserve_pct')
-        solver.add(fuel.eq(Int.val(Math.round(q.fuel_reserve_percent))))
-        solver.add(fuel.ge(Int.val(10)))
-        break
-      }
       case 'finance': {
         const q = params as DomainParams['finance']
         const pos = Int.const('position_pct')
         solver.add(pos.eq(Int.val(Math.round(q.position_pct))))
         solver.add(pos.le(Int.val(100)))
-        break
-      }
-      case 'robotics': {
-        const q = params as DomainParams['robotics']
-        const spd = Real.const('speed_ms')
-        solver.add(spd.eq(Real.val(q.speed_ms)))
-        solver.add(spd.le(Real.val(q.max_speed_ms)))
-        break
-      }
-      case 'critical_infrastructure': {
-        const q = params as DomainParams['critical_infrastructure']
-        const freq = Real.const('grid_freq_hz')
-        solver.add(freq.eq(Real.val(q.grid_frequency_hz)))
-        solver.add(freq.ge(Real.val(59.95)))
-        solver.add(freq.le(Real.val(60.05)))
         break
       }
       case 'criminal_justice':

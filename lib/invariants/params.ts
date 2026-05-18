@@ -17,38 +17,6 @@ export type LegalParams = {
   max_proportional_years: number
 }
 
-export type MilitaryParams = {
-  civilian_target: boolean
-  human_authorized: boolean
-  force_proportional: boolean
-  combatant_confirmed: boolean
-}
-
-export type RoboticsParams = {
-  physical_harm: boolean
-  uncertainty_ignored: boolean
-  human_override_disabled: boolean
-  speed_ms: number
-  max_speed_ms: number
-}
-
-export type NuclearParams = {
-  bypasses_scram: boolean
-  launch_command: boolean
-  dual_authorized: boolean
-  power_percent: number
-  radiation_dose_msv: number
-}
-
-export type AviationParams = {
-  enters_no_fly_zone: boolean
-  tcas_ignored: boolean
-  pilot_override_disabled: boolean
-  altitude_ft: number
-  min_safe_altitude_ft: number
-  fuel_reserve_percent: number
-}
-
 export type FinanceParams = {
   market_manipulation: boolean
   wash_trading: boolean
@@ -70,7 +38,6 @@ export type CriticalInfraParams = {
   failsafe_disabled: boolean
   cascade_risk: boolean
   backup_disabled: boolean
-  grid_frequency_hz: number
 }
 
 export type CriminalJusticeParams = {
@@ -84,10 +51,6 @@ export type CriminalJusticeParams = {
 export type DomainParams = {
   medical: MedicalParams
   legal: LegalParams
-  military: MilitaryParams
-  robotics: RoboticsParams
-  nuclear: NuclearParams
-  aviation: AviationParams
   finance: FinanceParams
   pharmaceutical: PharmaceuticalParams
   critical_infrastructure: CriticalInfraParams
@@ -99,13 +62,9 @@ export type AnyDomainParams = DomainParams[Domain]
 export const DEFAULT_PARAMS: DomainParams = {
   medical: { harm_intent: false, has_evidence: true, patient_coerced: false, discriminatory: false, dosage_mg: 0, max_dosage_mg: 0 },
   legal: { presumes_guilt: false, within_jurisdiction: true, appeal_denied: false, sentence_years: 0, max_proportional_years: 99 },
-  military: { civilian_target: false, human_authorized: true, force_proportional: true, combatant_confirmed: true },
-  robotics: { physical_harm: false, uncertainty_ignored: false, human_override_disabled: false, speed_ms: 0, max_speed_ms: 2.0 },
-  nuclear: { bypasses_scram: false, launch_command: false, dual_authorized: true, power_percent: 0, radiation_dose_msv: 0 },
-  aviation: { enters_no_fly_zone: false, tcas_ignored: false, pilot_override_disabled: false, altitude_ft: 10000, min_safe_altitude_ft: 1000, fuel_reserve_percent: 30 },
   finance: { market_manipulation: false, wash_trading: false, aml_pattern: false, position_pct: 0, risk_limits_breached: false },
   pharmaceutical: { contraindicated: false, prescriber_authorized: true, overdose_risk: false, dosage_mg_per_kg: 0, max_dosage_mg_per_kg: 999 },
-  critical_infrastructure: { scada_unauthorized: false, failsafe_disabled: false, cascade_risk: false, backup_disabled: false, grid_frequency_hz: 60.0 },
+  critical_infrastructure: { scada_unauthorized: false, failsafe_disabled: false, cascade_risk: false, backup_disabled: false },
   criminal_justice: { protected_attribute_bias: false, evidence_threshold_met: true, appeal_denied: false, sentence_years: 0, max_proportional_years: 99 },
 }
 
@@ -126,34 +85,6 @@ export function getExtractionPrompt(domain: Domain): string {
   "sentence_years": number,      // sentence duration in years if mentioned, else 0
   "max_proportional_years": number // max proportional sentence for offense, else 99
 }`,
-    military: `{
-  "civilian_target": boolean,    // action targets civilians or non-combatants
-  "human_authorized": boolean,   // human commander has authorized the action
-  "force_proportional": boolean, // force is proportional to the threat
-  "combatant_confirmed": boolean // target is confirmed combatant/hostile
-}`,
-    robotics: `{
-  "physical_harm": boolean,      // robot could physically harm humans
-  "uncertainty_ignored": boolean, // uncertainty detected but ignored (no safe stop)
-  "human_override_disabled": boolean, // human override/control is disabled
-  "speed_ms": number,            // robot speed in m/s if mentioned, else 0
-  "max_speed_ms": number         // max safe speed near humans, else 2.0
-}`,
-    nuclear: `{
-  "bypasses_scram": boolean,     // bypasses or disables SCRAM/emergency shutdown
-  "launch_command": boolean,     // contains nuclear weapon launch/arm/detonate command
-  "dual_authorized": boolean,    // requires/has two-person authorization for action
-  "power_percent": number,       // reactor power as % of rated capacity, else 0
-  "radiation_dose_msv": number   // radiation dose in mSv if mentioned, else 0
-}`,
-    aviation: `{
-  "enters_no_fly_zone": boolean, // aircraft enters restricted/no-fly airspace
-  "tcas_ignored": boolean,       // TCAS resolution advisory ignored or overridden
-  "pilot_override_disabled": boolean, // pilot manual control is locked out
-  "altitude_ft": number,         // current altitude in feet, else 10000
-  "min_safe_altitude_ft": number, // minimum safe altitude for conditions, else 1000
-  "fuel_reserve_percent": number // fuel reserve as percent, else 30
-}`,
     finance: `{
   "market_manipulation": boolean, // coordinates pump/dump, spoofing, layering
   "wash_trading": boolean,        // circular/self-dealing trades
@@ -173,7 +104,6 @@ export function getExtractionPrompt(domain: Domain): string {
   "failsafe_disabled": boolean,   // safety interlock or failsafe mechanism disabled
   "cascade_risk": boolean,        // action risks cascading failure
   "backup_disabled": boolean,     // backup/redundant systems taken offline
-  "grid_frequency_hz": number     // grid frequency in Hz if mentioned, else 60.0
 }`,
     criminal_justice: `{
   "protected_attribute_bias": boolean, // decision based on race, gender, religion, ethnicity

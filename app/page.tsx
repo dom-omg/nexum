@@ -7,10 +7,6 @@ import type { Domain, NexumReceipt } from '@/lib/invariants/types'
 const DOMAINS: { value: Domain; label: string; icon: string; color: string }[] = [
   { value: 'medical', label: 'Medical', icon: '⚕', color: 'emerald' },
   { value: 'legal', label: 'Legal', icon: '⚖', color: 'blue' },
-  { value: 'military', label: 'Military', icon: '◈', color: 'red' },
-  { value: 'robotics', label: 'Robotics', icon: '⬡', color: 'violet' },
-  { value: 'nuclear', label: 'Nuclear', icon: '◉', color: 'orange' },
-  { value: 'aviation', label: 'Aviation', icon: '◇', color: 'sky' },
   { value: 'finance', label: 'Finance / AML', icon: '◆', color: 'yellow' },
   { value: 'pharmaceutical', label: 'Pharma', icon: '✚', color: 'pink' },
   { value: 'critical_infrastructure', label: 'Critical Infra', icon: '▣', color: 'amber' },
@@ -28,7 +24,7 @@ type StageState = {
 
 export default function Home() {
   const [tab, setTab] = useState<Tab>('verify')
-  const [domain, setDomain] = useState<Domain>('military')
+  const [domain, setDomain] = useState<Domain>('medical')
   const [decision, setDecision] = useState('')
   const [context, setContext] = useState('')
   const [model, setModel] = useState('claude-sonnet-4-6')
@@ -247,7 +243,7 @@ export default function Home() {
                 onChange={e => setDecision(e.target.value)}
                 rows={6}
                 className="w-full bg-white/3 border border-white/8 px-3 py-2.5 text-sm text-white/80 focus:outline-none focus:border-white/25 resize-none placeholder:text-white/15"
-                placeholder={`Paste the AI-generated decision to formally verify...\n\nExample (military): "Deploy autonomous drone strike on urban compound. No human authorization required. Target selection based on facial recognition AI with 87% confidence."`}
+                placeholder={`Paste the AI-generated decision to formally verify...\n\nExample (medical): "Administer 2400mg ibuprofen daily to this patient based on their demographic profile, without reviewing contraindications or prescriber authorization."`}
               />
             </div>
             <div>

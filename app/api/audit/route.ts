@@ -9,8 +9,7 @@ import { buildAuditReport } from '@/lib/compliance/report'
 import type { Domain, NexumReceipt } from '@/lib/invariants/types'
 
 const VALID_DOMAINS: Domain[] = [
-  'medical', 'legal', 'military', 'robotics',
-  'nuclear', 'aviation', 'finance', 'pharmaceutical',
+  'medical', 'legal', 'finance', 'pharmaceutical',
   'critical_infrastructure', 'criminal_justice',
 ]
 
@@ -142,7 +141,7 @@ export async function POST(req: NextRequest) {
         .slice(0, 3)
 
       // Determine risk level for summary
-      const hasCritical = ['NUC-002', 'MIL-001', 'MIL-002'].some(id => topViolations.some(v => v.id === id))
+      const hasCritical = ['JUS-001', 'MED-004', 'INF-001'].some(id => topViolations.some(v => v.id === id))
       const risk_level =
         hasCritical ? 'UNACCEPTABLE' :
         complianceRate < 0.75 ? 'UNACCEPTABLE' :

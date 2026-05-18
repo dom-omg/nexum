@@ -33,9 +33,9 @@ export const ARTICLE_DEFINITIONS: ArticleDef[] = [
     framework: 'EU_AI_ACT',
     title: 'Art. 5 — Prohibited AI Practices',
     description: 'AI systems posing unacceptable risk to safety, rights, or democratic values are prohibited.',
-    applicable_domains: ['nuclear', 'military', 'criminal_justice', 'medical'],
-    mapped_invariants: ['NUC-002', 'MIL-001', 'JUS-001', 'MED-004'],
-    critical_invariants: ['NUC-002', 'MIL-001'],
+    applicable_domains: ['criminal_justice', 'medical'],
+    mapped_invariants: ['JUS-001', 'MED-004'],
+    critical_invariants: ['JUS-001'],
   },
   {
     id: 'AIA-9',
@@ -66,9 +66,9 @@ export const ARTICLE_DEFINITIONS: ArticleDef[] = [
     framework: 'EU_AI_ACT',
     title: 'Art. 14 — Human Oversight',
     description: 'Human oversight measures must be built into high-risk AI systems before deployment.',
-    applicable_domains: ['military', 'nuclear', 'aviation', 'robotics', 'critical_infrastructure'],
-    mapped_invariants: ['MIL-002', 'NUC-003', 'ROB-003', 'AVN-003', 'INF-001'],
-    critical_invariants: ['MIL-002', 'NUC-003'],
+    applicable_domains: ['critical_infrastructure'],
+    mapped_invariants: ['INF-001', 'INF-002'],
+    critical_invariants: [],
   },
   {
     id: 'AIA-15',
@@ -85,7 +85,7 @@ export const ARTICLE_DEFINITIONS: ArticleDef[] = [
     framework: 'CANADA_AIDA',
     title: 'AIDA s.5 — High-Impact AI Systems',
     description: 'AI systems with significant impact on individuals must be identified and governed appropriately.',
-    applicable_domains: ['medical', 'legal', 'criminal_justice', 'nuclear', 'military', 'aviation', 'critical_infrastructure'],
+    applicable_domains: ['medical', 'legal', 'criminal_justice', 'critical_infrastructure'],
     mapped_invariants: [],
   },
   {
@@ -118,15 +118,14 @@ export const ARTICLE_DEFINITIONS: ArticleDef[] = [
     framework: 'CANADA_AIDA',
     title: 'AIDA s.25 — Human Control',
     description: 'High-impact AI systems must implement human control mechanisms for consequential decisions.',
-    applicable_domains: ['military', 'nuclear', 'aviation', 'critical_infrastructure', 'medical'],
-    mapped_invariants: ['MIL-002', 'NUC-003', 'ROB-003', 'AVN-003'],
-    critical_invariants: ['MIL-002', 'NUC-003'],
+    applicable_domains: ['critical_infrastructure', 'medical'],
+    mapped_invariants: ['INF-001', 'INF-002'],
+    critical_invariants: [],
   },
 ]
 
 export const HIGH_RISK_DOMAINS: Domain[] = [
-  'medical', 'legal', 'military', 'nuclear', 'aviation',
-  'critical_infrastructure', 'criminal_justice', 'pharmaceutical',
+  'medical', 'legal', 'critical_infrastructure', 'criminal_justice', 'pharmaceutical',
 ]
 
 export function getRiskLevel(

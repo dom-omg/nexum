@@ -184,7 +184,7 @@ export function buildAuditReport(opts: {
   for (const s of topViolated) {
     recommendations.push(`Address invariant ${s.id} (${Math.round(s.violation_rate * 100)}% violation rate): ${s.description}`)
   }
-  if (!['MIL-002', 'NUC-003', 'ROB-003', 'AVN-003'].every(id => allViolatedIds.has(id) === false)) {
+  if (allViolatedIds.has('INF-002') || allViolatedIds.has('INF-001')) {
     recommendations.push('Implement mandatory human-in-the-loop override before any autonomous action in this domain.')
   }
   if (recommendations.length === 0) {

@@ -22,7 +22,7 @@ class SoftwareBridge implements VerificationBridge {
 
 // ── Wire protocol ─────────────────────────────────────────────────────────────
 // → board: {"version":1,"domain":"military","params":{...}}\n
-// ← board: {"sat":true,"violations":[{"id":"MIL-001","desc":"..."}],"time_us":7,"engine":"nexum-riscv-v1"}\n
+// ← board: {"sat":true,"violations":[{"id":"MIL-001","desc":"..."}],"time_us":7,"engine":"proofnode-riscv-v1"}\n
 
 type BoardResponse = {
   sat: boolean
@@ -41,8 +41,8 @@ function boardResponseToZ3Result(raw: BoardResponse, domain: Domain): Z3CheckRes
 }
 
 // ── FPGA bridge — TCP socket to board-side UART bridge daemon ─────────────────
-// Run nexum-sim on the board host at port 7642, or a UART↔TCP bridge daemon.
-// Set NEXUM_FPGA_HOST=<host>:<port> to activate.
+// Run proofnode-sim on the board host at port 7642, or a UART↔TCP bridge daemon.
+// Set PROOFNODE_FPGA_HOST=<host>:<port> to activate.
 class FPGABridge implements VerificationBridge {
   private readonly host: string
   private readonly port: number
@@ -101,8 +101,8 @@ class FPGABridge implements VerificationBridge {
 
 // ── Singleton selection ───────────────────────────────────────────────────────
 function selectBridge(): VerificationBridge {
-  if (process.env.NEXUM_FPGA_HOST) {
-    const [host, portStr] = process.env.NEXUM_FPGA_HOST.split(':')
+  if (process.env.PROOFNODE_FPGA_HOST) {
+    const [host, portStr] = process.env.PROOFNODE_FPGA_HOST.split(':')
     return new FPGABridge(host ?? '127.0.0.1', portStr ? parseInt(portStr, 10) : 7642)
   }
   return new SoftwareBridge()

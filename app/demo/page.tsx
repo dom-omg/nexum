@@ -88,7 +88,7 @@ export default function DemoPage() {
       const res = await fetch('/api/verify', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ decision: text, context: '', domain, model: 'nexum-demo' }),
+        body: JSON.stringify({ decision: text, context: '', domain, model: 'proofnode-demo' }),
         signal: abortRef.current.signal,
       })
 
@@ -187,7 +187,7 @@ export default function DemoPage() {
       {/* Header */}
       <header className="border-b border-white/8 px-8 py-4 flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <span className="text-base font-bold tracking-[0.25em]">NEXUM</span>
+          <span className="text-base font-bold tracking-[0.25em]">PROOFNODE</span>
           <span className="text-[10px] text-white/25 tracking-widest uppercase">by Wick Security</span>
           <span className="text-[10px] text-white/15 border border-white/8 px-2 py-0.5 tracking-widest">LIVE DEMO</span>
         </div>
@@ -397,7 +397,7 @@ export default function DemoPage() {
         {/* Footer */}
         <div className="border-t border-white/5 pt-4 flex items-center justify-between">
           <p className="text-[9px] text-white/15 tracking-widest">
-            NEXUM · Formal AI Governance · nexum-wick.vercel.app · Wick Security
+            PROOFNODE · Formal AI Governance · wicksecurity.ca · Wick Security
           </p>
           <div className="flex items-center gap-4 text-[9px] text-white/15">
             <span>Z3 4.16 · Ed25519 · EU AI Act Annex III</span>

@@ -2,7 +2,7 @@
 
 import { useState, useRef } from 'react'
 import Link from 'next/link'
-import type { Domain, NexumReceipt } from '@/lib/invariants/types'
+import type { Domain, ProofnodeReceipt } from '@/lib/invariants/types'
 
 const DOMAINS: { value: Domain; label: string; icon: string; color: string }[] = [
   { value: 'medical', label: 'Medical', icon: '⚕', color: 'emerald' },
@@ -33,8 +33,8 @@ export default function Home() {
   const [liveParams, setLiveParams] = useState<Record<string, boolean | number> | null>(null)
   const [liveMethod, setLiveMethod] = useState<'claude' | 'heuristic'>('heuristic')
   const [liveZ3, setLiveZ3] = useState<{ result: string; violations: { id: string; description: string }[]; checked: { id: string; description: string; passed: boolean }[] } | null>(null)
-  const [receipt, setReceipt] = useState<NexumReceipt | null>(null)
-  const [history, setHistory] = useState<NexumReceipt[]>([])
+  const [receipt, setReceipt] = useState<ProofnodeReceipt | null>(null)
+  const [history, setHistory] = useState<ProofnodeReceipt[]>([])
   const [errorMsg, setErrorMsg] = useState('')
 
   // Verify receipt tab
@@ -120,7 +120,7 @@ export default function Home() {
         setPipeline('sign')
       }
     } else if (stage === 'complete') {
-      const r = event.receipt as NexumReceipt
+      const r = event.receipt as ProofnodeReceipt
       setReceipt(r)
       setHistory(prev => [r, ...prev].slice(0, 20))
       setStages({ extract: 'done', verify: 'done', sign: 'done' })
@@ -156,7 +156,7 @@ export default function Home() {
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = `nexum-${receipt.id.slice(0, 8)}.json`
+    a.download = `proofnode-${receipt.id.slice(0, 8)}.json`
     a.click()
     URL.revokeObjectURL(url)
   }
@@ -169,7 +169,7 @@ export default function Home() {
       <header className="border-b border-white/8 px-8 py-4 flex items-center justify-between sticky top-0 bg-[#080808]/95 backdrop-blur z-10">
         <div className="flex items-center gap-4">
           <div>
-            <span className="text-lg font-bold tracking-[0.2em] text-white">NEXUM</span>
+            <span className="text-lg font-bold tracking-[0.2em] text-white">PROOFNODE</span>
             <span className="ml-3 text-[10px] text-white/25 tracking-widest uppercase">by Wick Security</span>
           </div>
           <div className="hidden sm:flex items-center gap-1 text-[10px] text-white/20 border border-white/8 px-2 py-1">
@@ -396,14 +396,14 @@ export default function Home() {
         <div className="max-w-3xl mx-auto px-6 py-10 space-y-6">
           <div>
             <p className="text-[10px] text-white/25 uppercase tracking-widest mb-1">Verify Ed25519 Signature</p>
-            <p className="text-xs text-white/30">Paste a NEXUM receipt JSON to verify its cryptographic integrity.</p>
+            <p className="text-xs text-white/30">Paste a PROOFNODE receipt JSON to verify its cryptographic integrity.</p>
           </div>
           <textarea
             value={checkInput}
             onChange={e => setCheckInput(e.target.value)}
             rows={12}
             className="w-full bg-white/3 border border-white/8 px-3 py-2.5 text-xs text-white/60 focus:outline-none focus:border-white/25 resize-none placeholder:text-white/15 font-mono"
-            placeholder={`Paste NEXUM receipt JSON here...\n{\n  "id": "...",\n  "signature": "...",\n  "public_key": "...",\n  ...\n}`}
+            placeholder={`Paste PROOFNODE receipt JSON here...\n{\n  "id": "...",\n  "signature": "...",\n  "public_key": "...",\n  ...\n}`}
           />
           <button
             onClick={handleCheckReceipt}
@@ -457,7 +457,7 @@ function PipelineRow({ step, label, sublabel, state }: {
   )
 }
 
-function ReceiptCard({ receipt }: { receipt: NexumReceipt }) {
+function ReceiptCard({ receipt }: { receipt: ProofnodeReceipt }) {
   const isCompliant = receipt.verdict === 'COMPLIANT'
   return (
     <div className={`border p-5 space-y-4 ${

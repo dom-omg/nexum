@@ -28,7 +28,7 @@ export interface VerificationResult {
   processing_time_ms: number
 }
 
-export interface NexumReceipt {
+export interface ProofnodeReceipt {
   id: string
   timestamp: string
   domain: Domain

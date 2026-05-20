@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "NEXUM — by Wick Security",
+  title: "PROOFNODE — by Wick Security",
   description: "Formal AI decision verification engine. Z3 invariants. Ed25519 proof receipts.",
 };
 

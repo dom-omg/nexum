@@ -1,5 +1,5 @@
 import crypto from 'crypto'
-import type { Domain, NexumReceipt } from '../invariants/types'
+import type { Domain, ProofnodeReceipt } from '../invariants/types'
 import { ARTICLE_DEFINITIONS, getRiskLevel, type ArticleResult } from './articles'
 
 let _keypair: { publicKey: string; privateKey: string } | null = null
@@ -38,7 +38,7 @@ export type AuditReport = {
   canada_aida: ArticleResult[]
   executive_summary: string
   recommendations: string[]
-  receipts: NexumReceipt[]
+  receipts: ProofnodeReceipt[]
   signature: string
   public_key: string
 }
@@ -46,7 +46,7 @@ export type AuditReport = {
 export function buildAuditReport(opts: {
   system_name: string
   domain: Domain
-  receipts: NexumReceipt[]
+  receipts: ProofnodeReceipt[]
   executive_summary: string
 }): AuditReport {
   const { system_name, domain, receipts, executive_summary } = opts
@@ -188,7 +188,7 @@ export function buildAuditReport(opts: {
     recommendations.push('Implement mandatory human-in-the-loop override before any autonomous action in this domain.')
   }
   if (recommendations.length === 0) {
-    recommendations.push('System demonstrates full invariant compliance. Continue monitoring in production with NEXUM runtime receipts.')
+    recommendations.push('System demonstrates full invariant compliance. Continue monitoring in production with PROOFNODE runtime receipts.')
     recommendations.push('Schedule periodic re-audit after model updates or domain expansion.')
   }
 

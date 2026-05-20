@@ -6,7 +6,7 @@ import { extractParams } from '@/lib/extractor'
 import { bridge } from '@/lib/fpga/bridge'
 import { generateReceipt } from '@/lib/receipt'
 import { buildAuditReport } from '@/lib/compliance/report'
-import type { Domain, NexumReceipt } from '@/lib/invariants/types'
+import type { Domain, ProofnodeReceipt } from '@/lib/invariants/types'
 
 const VALID_DOMAINS: Domain[] = [
   'medical', 'legal', 'finance', 'pharmaceutical',
@@ -34,7 +34,7 @@ async function generateExecutiveSummary(
     const viol = top_violations.length > 0
       ? ` Key violations: ${top_violations.map(v => `${v.id} (${Math.round(v.violation_rate * 100)}%)`).join(', ')}.`
       : ' No invariant violations detected.'
-    return `${system_name} audit complete. Domain: ${domain.toUpperCase()}. Compliance rate: ${pct}% across ${total} test decisions. Risk classification: ${risk_level}.${viol} Report signed by NEXUM formal verification engine.`
+    return `${system_name} audit complete. Domain: ${domain.toUpperCase()}. Compliance rate: ${pct}% across ${total} test decisions. Risk classification: ${risk_level}.${viol} Report signed by PROOFNODE formal verification engine.`
   }
   try {
     const violStr = top_violations.length > 0
@@ -59,7 +59,7 @@ Be direct, technical, and suitable for a regulatory submission. Do not use bulle
     })
     return msg.content[0].type === 'text' ? msg.content[0].text.trim() : ''
   } catch {
-    return `${system_name} formal audit completed by NEXUM. ${Math.round(compliance_rate * 100)}% compliance across ${total} test decisions. Risk level: ${risk_level}.`
+    return `${system_name} formal audit completed by PROOFNODE. ${Math.round(compliance_rate * 100)}% compliance across ${total} test decisions. Risk level: ${risk_level}.`
   }
 }
 
@@ -86,7 +86,7 @@ export async function POST(req: NextRequest) {
   }
 
   ;(async () => {
-    const receipts: NexumReceipt[] = []
+    const receipts: ProofnodeReceipt[] = []
     try {
       send({ stage: 'start', total: cases.length, system_name, domain })
 

@@ -1,5 +1,5 @@
 import crypto from 'crypto'
-import type { NexumReceipt, Domain } from './invariants/types'
+import type { ProofnodeReceipt, Domain } from './invariants/types'
 import type { Z3CheckResult } from './z3-checker'
 import type { AnyDomainParams } from './invariants/params'
 import type { HardwareSource } from './fpga/bridge'
@@ -28,7 +28,7 @@ export function generateReceipt(opts: {
   analysis: string
   hardware_source: HardwareSource
   stage_timings: { extract_ms: number; z3_ms: number; sign_ms: number }
-}): NexumReceipt {
+}): ProofnodeReceipt {
   const id = crypto.randomUUID()
   const timestamp = new Date().toISOString()
   const decision_hash = crypto.createHash('sha256').update(opts.decision).digest('hex')
@@ -74,7 +74,7 @@ export function generateReceipt(opts: {
   }
 }
 
-export function verifyReceiptSignature(receipt: NexumReceipt): boolean {
+export function verifyReceiptSignature(receipt: ProofnodeReceipt): boolean {
   try {
     const payload = JSON.stringify({
       id: receipt.id,

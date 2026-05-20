@@ -116,7 +116,7 @@ export default function AuditPage() {
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
-    a.download = `nexum-audit-${report.id.slice(0, 8)}.json`
+    a.download = `proofnode-audit-${report.id.slice(0, 8)}.json`
     a.click()
     URL.revokeObjectURL(url)
   }
@@ -141,7 +141,7 @@ export default function AuditPage() {
       <header className="border-b border-white/8 px-8 py-4 flex items-center justify-between sticky top-0 bg-[#080808]/95 backdrop-blur z-10">
         <div className="flex items-center gap-4">
           <Link href="/">
-            <span className="text-lg font-bold tracking-[0.2em] text-white cursor-pointer">NEXUM</span>
+            <span className="text-lg font-bold tracking-[0.2em] text-white cursor-pointer">PROOFNODE</span>
           </Link>
           <span className="text-[10px] text-white/20 tracking-widest uppercase hidden sm:block">by Wick Security</span>
         </div>
@@ -412,7 +412,7 @@ export default function AuditPage() {
 
             {/* Signature */}
             <div className="border border-white/6 px-4 py-3 text-[9px] text-white/20">
-              <span className="text-white/30 uppercase tracking-wider mr-2">NEXUM Ed25519 Audit Signature</span>
+              <span className="text-white/30 uppercase tracking-wider mr-2">PROOFNODE Ed25519 Audit Signature</span>
               <span className="break-all">{report.signature.slice(0, 80)}…</span>
             </div>
           </div>
